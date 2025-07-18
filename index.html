@@ -136,6 +136,7 @@
             border: 1px solid var(--border-light);
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
 
         .schedule-card::before {
@@ -160,12 +161,49 @@
             transform: scale(0.98);
         }
 
+        .schedule-card:hover {
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Estilos para expansão */
+        .schedule-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .expand-icon {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .schedule-card.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .schedule-summary {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        .schedule-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .schedule-card.expanded .schedule-content {
+            max-height: 2000px;
+        }
+
         .schedule-card h2 {
             color: var(--primary-color);
             font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 20px;
-            text-align: center;
+            margin: 0;
             letter-spacing: -0.025em;
         }
 
@@ -185,6 +223,7 @@
             border-radius: 16px;
             margin-bottom: 20px;
             border: 1px solid var(--border-light);
+            margin-top: 16px;
         }
 
         .schedule-info h3 {
@@ -209,6 +248,7 @@
         .stops-list {
             list-style: none;
             padding: 0;
+            margin-top: 16px;
         }
 
         .stops-list li {
@@ -255,6 +295,13 @@
             color: var(--text-light);
             font-size: 0.8125rem;
             line-height: 1.4;
+        }
+
+        .content-section-title {
+            color: var(--primary-color);
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin: 20px 0 16px 0;
         }
 
         .bus-section, .location-section {
@@ -535,91 +582,109 @@
         </div>
 
         <div class="schedule-grid">
-            <div class="schedule-card departure">
-                <h2>Rota de Ida - Sta Maria</h2>
-                <div class="schedule-info">
-                    <h3>🕕 Horários de Saída</h3>
-                    <p><strong>Saídas:</strong> 06:00 e 08:00</p>
-                    <p><strong>Tolerância:</strong> Máximo 5 minutos</p>
+            <div class="schedule-card departure" id="departure-card">
+                <div class="schedule-header" onclick="toggleSchedule('departure')">
+                    <h2>Rota de Ida - Sta Maria</h2>
+                    <div class="expand-icon">⌄</div>
                 </div>
-                <h3>📍 Ponto de Embarque Principal</h3>
-                <ul class="stops-list">
-                    <li>
-                        <strong>Terminal Messejana</strong>
-                        <small>Rua Taquatiara, nº 100 - Messejana<br>
-                        <strong>Referência:</strong> Próximo ao SAMU, perto da saída dos ônibus</small>
-                    </li>
-                </ul>
-                <h3>📍 Pontos de Embarque no Trajeto</h3>
-                <ul class="stops-list">
-                    <li>
-                        <strong>Veneza Máquinas</strong>
-                        <small>Rod. Estr. do Guarani (BR116), 2656 - KM-12 - Santa Maria</small>
-                    </li>
-                    <li>
-                        <strong>Posto Tigrão</strong>
-                        <small>Rod. BR 116 Km 12, 2928 - Parque Santa Maria</small>
-                    </li>
-                    <li>
-                        <strong>Posto de Saúde Fausto Freire</strong>
-                        <small>Rua Izabel Bezerra, 416 - Parque Santa Maria</small>
-                    </li>
-                    <li>
-                        <strong>Academia PowerFit</strong>
-                        <small>Rua Maria Quintino, 1117 - Parque Santa Maria</small>
-                    </li>
-                    <li>
-                        <strong>Novo Cordeiro Supermercados</strong>
-                        <small>R. São Leopoldo, 611 - Santa Fé</small>
-                    </li>
-                    <li>
-                        <strong>Posto DAG</strong>
-                        <small>Rod. 4º Anel Viário, 2121 - Ancuri</small>
-                    </li>
-                </ul>
-                <div class="schedule-info">
-                    <h3>🎯 Destino Final</h3>
-                    <p><strong>ATACADÃO</strong></p>
+                <div class="schedule-summary">
+                    <strong>Horários:</strong> 06:00 e 08:00 • <strong>Tolerância:</strong> 5 min • <strong>7 paradas</strong>
+                </div>
+                
+                <div class="schedule-content">
+                    <div class="schedule-info">
+                        <h3>🕕 Horários de Saída</h3>
+                        <p><strong>Saídas:</strong> 06:00 e 08:00</p>
+                        <p><strong>Tolerância:</strong> Máximo 5 minutos</p>
+                    </div>
+                    <h3 class="content-section-title">📍 Ponto de Embarque Principal</h3>
+                    <ul class="stops-list">
+                        <li>
+                            <strong>Terminal Messejana</strong>
+                            <small>Rua Taquatiara, nº 100 - Messejana<br>
+                            <strong>Referência:</strong> Próximo ao SAMU, perto da saída dos ônibus</small>
+                        </li>
+                    </ul>
+                    <h3 class="content-section-title">📍 Pontos de Embarque no Trajeto</h3>
+                    <ul class="stops-list">
+                        <li>
+                            <strong>Veneza Máquinas</strong>
+                            <small>Rod. Estr. do Guarani (BR116), 2656 - KM-12 - Santa Maria</small>
+                        </li>
+                        <li>
+                            <strong>Posto Tigrão</strong>
+                            <small>Rod. BR 116 Km 12, 2928 - Parque Santa Maria</small>
+                        </li>
+                        <li>
+                            <strong>Posto de Saúde Fausto Freire</strong>
+                            <small>Rua Izabel Bezerra, 416 - Parque Santa Maria</small>
+                        </li>
+                        <li>
+                            <strong>Academia PowerFit</strong>
+                            <small>Rua Maria Quintino, 1117 - Parque Santa Maria</small>
+                        </li>
+                        <li>
+                            <strong>Novo Cordeiro Supermercados</strong>
+                            <small>R. São Leopoldo, 611 - Santa Fé</small>
+                        </li>
+                        <li>
+                            <strong>Posto DAG</strong>
+                            <small>Rod. 4º Anel Viário, 2121 - Ancuri</small>
+                        </li>
+                    </ul>
+                    <div class="schedule-info">
+                        <h3>🎯 Destino Final</h3>
+                        <p><strong>ATACADÃO</strong></p>
+                    </div>
                 </div>
             </div>
 
-            <div class="schedule-card return">
-                <h2>Rota de Volta - Sta Maria</h2>
-                <div class="schedule-info">
-                    <h3>🕐 Horários de Saída</h3>
-                    <p><strong>Atacadão:</strong> 17:00 e 19:00</p>
-                    <p><strong>Tolerância:</strong> Máximo 10 minutos</p>
+            <div class="schedule-card return" id="return-card">
+                <div class="schedule-header" onclick="toggleSchedule('return')">
+                    <h2>Rota de Volta - Sta Maria</h2>
+                    <div class="expand-icon">⌄</div>
                 </div>
-                <h3>📍 Pontos de Desembarque</h3>
-                <ul class="stops-list">
-                    <li>
-                        <strong>Condomínio Aliança</strong>
-                        <small>Rod. 4º Anel Viário, 2700 - Pedras</small>
-                    </li>
-                    <li>
-                        <strong>Posto DAG</strong>
-                        <small>Rod. 4º Anel Viário, 2121 - Ancuri</small>
-                    </li>
-                    <li>
-                        <strong>Novo Cordeiro Supermercados</strong>
-                        <small>R. São Leopoldo, 611 - Santa Fé</small>
-                    </li>
-                    <li>
-                        <strong>Academia PowerFit</strong>
-                        <small>Rua Maria Quintino, 1117 - Parque Santa Maria</small>
-                    </li>
-                    <li>
-                        <strong>Posto de Saúde Fausto Freire</strong>
-                        <small>Rua Izabel Bezerra, 416 - Parque Santa Maria</small>
-                    </li>
-                    <li>
-                        <strong>Posto Tigrão</strong>
-                        <small>Rod. BR 116 Km 12, 2928 - Parque Santa Maria</small>
-                    </li>
-                </ul>
-                <div class="schedule-info">
-                    <h3>🎯 Destino Final</h3>
-                    <p><strong>Terminal da Messejana</strong></p>
+                <div class="schedule-summary">
+                    <strong>Horários:</strong> 17:00 e 19:00 • <strong>Tolerância:</strong> 10 min • <strong>6 paradas</strong>
+                </div>
+                
+                <div class="schedule-content">
+                    <div class="schedule-info">
+                        <h3>🕐 Horários de Saída</h3>
+                        <p><strong>Atacadão:</strong> 17:00 e 19:00</p>
+                        <p><strong>Tolerância:</strong> Máximo 10 minutos</p>
+                    </div>
+                    <h3 class="content-section-title">📍 Pontos de Desembarque</h3>
+                    <ul class="stops-list">
+                        <li>
+                            <strong>Condomínio Aliança</strong>
+                            <small>Rod. 4º Anel Viário, 2700 - Pedras</small>
+                        </li>
+                        <li>
+                            <strong>Posto DAG</strong>
+                            <small>Rod. 4º Anel Viário, 2121 - Ancuri</small>
+                        </li>
+                        <li>
+                            <strong>Novo Cordeiro Supermercados</strong>
+                            <small>R. São Leopoldo, 611 - Santa Fé</small>
+                        </li>
+                        <li>
+                            <strong>Academia PowerFit</strong>
+                            <small>Rua Maria Quintino, 1117 - Parque Santa Maria</small>
+                        </li>
+                        <li>
+                            <strong>Posto de Saúde Fausto Freire</strong>
+                            <small>Rua Izabel Bezerra, 416 - Parque Santa Maria</small>
+                        </li>
+                        <li>
+                            <strong>Posto Tigrão</strong>
+                            <small>Rod. BR 116 Km 12, 2928 - Parque Santa Maria</small>
+                        </li>
+                    </ul>
+                    <div class="schedule-info">
+                        <h3>🎯 Destino Final</h3>
+                        <p><strong>Terminal da Messejana</strong></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -822,6 +887,15 @@
     </div>
 
     <script>
+        // Função para expandir/recolher as rotas
+        function toggleSchedule(scheduleType) {
+            const card = document.getElementById(scheduleType + '-card');
+            if (card) {
+                card.classList.toggle('expanded');
+            }
+        }
+
+        // Função para abrir modal
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
             if (modal) {
@@ -830,6 +904,7 @@
             }
         }
 
+        // Função para fechar modal
         function closeModal(modalId) {
             const modal = document.getElementById(modalId);
             if (modal) {
