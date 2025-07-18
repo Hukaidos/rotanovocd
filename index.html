@@ -536,7 +536,7 @@
 
         <div class="schedule-grid">
             <div class="schedule-card departure">
-                <h2>Rota de Ida</h2>
+                <h2>Rota de Ida - Sta Maria</h2>
                 <div class="schedule-info">
                     <h3>🕕 Horários de Saída</h3>
                     <p><strong>Saídas:</strong> 06:00 e 08:00</p>
@@ -546,12 +546,16 @@
                 <ul class="stops-list">
                     <li>
                         <strong>Terminal Messejana</strong>
-                        <small>Rua Taquatiara, nº 100 - Messejana, Fortaleza - CE, 60840-060<br>
+                        <small>Rua Taquatiara, nº 100 - Messejana<br>
                         <strong>Referência:</strong> Próximo ao SAMU, perto da saída dos ônibus</small>
                     </li>
                 </ul>
                 <h3>📍 Pontos de Embarque no Trajeto</h3>
                 <ul class="stops-list">
+                    <li>
+                        <strong>Veneza Máquinas</strong>
+                        <small>Rod. Estr. do Guarani (BR116), 2656 - KM-12 - Santa Maria</small>
+                    </li>
                     <li>
                         <strong>Posto Tigrão</strong>
                         <small>Rod. BR 116 Km 12, 2928 - Parque Santa Maria</small>
@@ -580,7 +584,7 @@
             </div>
 
             <div class="schedule-card return">
-                <h2>Rota de Volta</h2>
+                <h2>Rota de Volta - Sta Maria</h2>
                 <div class="schedule-info">
                     <h3>🕐 Horários de Saída</h3>
                     <p><strong>Atacadão:</strong> 17:00 e 19:00</p>
@@ -657,6 +661,16 @@
                         <div class="photo-overlay">
                             <div class="photo-text">Terminal Messejana - Foto 2</div>
                             <div class="photo-subtext">Ponto de referência SAMU</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">🏭 Veneza Máquinas</h3>
+                <div class="stops-photos">
+                    <div class="stop-photo-container" onclick="openModal('modal10')" style="background-image: url('veneza.png');">
+                        <div class="photo-overlay">
+                            <div class="photo-text">Veneza Máquinas</div>
+                            <div class="photo-subtext">Rod. Estr. do Guarani (BR116), 2656</div>
                         </div>
                     </div>
                 </div>
@@ -800,17 +814,28 @@
         </div>
     </div>
 
+    <div id="modal10" class="modal">
+        <span class="close" onclick="closeModal('modal10')">&times;</span>
+        <div class="modal-content">
+            <img src="veneza.png" alt="Veneza Máquinas" class="modal-image">
+        </div>
+    </div>
+
     <script>
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
         }
 
         function closeModal(modalId) {
             const modal = document.getElementById(modalId);
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
         }
 
         // Fechar modal clicando fora da imagem
@@ -829,6 +854,13 @@
                     activeModal.classList.remove('active');
                     document.body.style.overflow = 'auto';
                 }
+            }
+        });
+
+        // Prevenir que o clique na imagem feche o modal
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-image') || e.target.classList.contains('modal-content')) {
+                e.stopPropagation();
             }
         });
     </script>
